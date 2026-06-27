@@ -1,0 +1,32 @@
+{
+  "name": "devsecops-platform",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@supabase/supabase-js": "latest",
+    "gray-matter": "latest",
+    "remark": "latest",
+    "remark-html": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "tailwindcss": "latest",
+    "@tailwindcss/typography": "latest",
+    "postcss": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "@tailwindcss/postcss": "latest"
+  }
+}
