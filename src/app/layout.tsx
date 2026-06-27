@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
-  title: "DevSecOps & AI-Driven Development",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://example.com"),
+  title: {
+    default: "DevSecOps & AI-Driven Development",
+    template: "%s · DevSecOps & AI",
+  },
   description:
-    "Coder vite avec l'IA, sans sacrifier la sécurité ni la conformité.",
+    "Coder vite avec l'IA, sans sacrifier la sécurité ni la conformité. Guides pratiques, micro-outils gratuits et templates pour développeurs.",
+  openGraph: {
+    title: "DevSecOps & AI-Driven Development",
+    description:
+      "Coder vite avec l'IA, sans sacrifier la sécurité ni la conformité.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -15,22 +27,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className="font-sans">
-        <header className="border-b border-gray-200">
-          <nav className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
-            <Link href="/" className="font-semibold">
-              DevSecOps & AI
-            </Link>
-            <div className="flex gap-6 text-sm">
-              <Link href="/blog">Blog</Link>
-              <Link href="/tools">Outils</Link>
-            </div>
-          </nav>
-        </header>
-        <main className="mx-auto max-w-4xl px-4 py-10">{children}</main>
-        <footer className="mx-auto max-w-4xl px-4 py-10 text-sm text-gray-500">
-          DevSecOps & AI-Driven Development
-        </footer>
+      <body className="flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <Analytics />
       </body>
     </html>
   );
