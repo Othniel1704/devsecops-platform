@@ -27,9 +27,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className="flex min-h-screen flex-col bg-white font-sans text-slate-900 antialiased">
+      <body className="flex min-h-screen flex-col antialiased" style={{ position: "relative", zIndex: 1 }}>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 relative z-10">{children}</main>
         <Footer />
         <Analytics />
       </body>

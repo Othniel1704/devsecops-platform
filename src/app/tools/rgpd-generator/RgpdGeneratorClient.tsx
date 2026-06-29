@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Container from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import Card from "@/components/ui/Card";
+import Badge from "@/components/ui/Badge";
 
 export default function RgpdGeneratorClient() {
   const [companyName, setCompanyName] = useState("");
@@ -38,8 +41,7 @@ Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de
 suppression de vos données. Pour exercer ce droit, contactez-nous à l'adresse
 ci-dessus.
 
-⚠️ Ce document est un point de départ généré automatiquement, pas un avis
-juridique. Faites-le valider par un professionnel avant publication.`;
+Avis important : Ce document est un point de départ généré automatiquement et ne constitue pas un avis juridique.`;
     setGenerated(text);
   }
 
@@ -55,68 +57,143 @@ juridique. Faites-le valider par un professionnel avant publication.`;
 
   return (
     <Container size="narrow" className="py-16">
-      <h1 className="text-2xl font-bold text-slate-900">
-        Générateur de politique de confidentialité
-      </h1>
-      <p className="mt-2 text-slate-600">
-        Remplis ce formulaire pour générer un point de départ. Tout reste dans
-        ton navigateur — rien n&apos;est envoyé à un serveur. Ce n&apos;est pas
-        un avis juridique.
-      </p>
+      {/* Back button */}
+      <Link
+        href="/tools"
+        className="back-link"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.375rem",
+          fontSize: "0.8125rem",
+          fontWeight: 600,
+          color: "var(--text-secondary)",
+          textDecoration: "none",
+          marginBottom: "2rem",
+          transition: "color 0.2s",
+          fontFamily: "'Space Grotesk', sans-serif",
+        }}
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Retour aux outils
+      </Link>
 
-      <div className="mt-8 space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-slate-700">
-            Nom du projet
-          </label>
-          <input
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-          />
+      <div style={{ marginBottom: "2.5rem" }}>
+        <div style={{ marginBottom: "0.75rem" }}>
+          <Badge tone="emerald">RGPD</Badge>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">
-            Email de contact
-          </label>
-          <input
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
-            value={contactEmail}
-            onChange={(e) => setContactEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-slate-700">
-            Données collectées
-          </label>
-          <input
-            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600"
-            placeholder="ex: email, nom, adresse IP"
-            value={dataCollected}
-            onChange={(e) => setDataCollected(e.target.value)}
-          />
-        </div>
-        <label className="flex items-center gap-2 text-sm text-slate-700">
-          <input
-            type="checkbox"
-            checked={collectsCookies}
-            onChange={(e) => setCollectsCookies(e.target.checked)}
-          />
-          Le site utilise des cookies
-        </label>
-
-        <Button onClick={generate}>Générer</Button>
+        <h1
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: "clamp(1.75rem, 4vw, 2.5rem)",
+            fontWeight: 700,
+            color: "var(--text-primary)",
+            margin: "0 0 0.75rem",
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Générateur de politique de confidentialité
+        </h1>
+        <p style={{ color: "var(--text-secondary)", fontSize: "1rem", margin: 0, lineHeight: 1.6 }}>
+          Génère une politique de confidentialité conforme pour ton MVP ou projet. Tout reste dans ton navigateur, rien n&apos;est collecté ou envoyé.
+        </p>
       </div>
 
+      <Card style={{ padding: "2rem", marginBottom: "2rem" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+          <div>
+            <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.5rem" }}>
+              Nom du projet / entreprise
+            </label>
+            <input
+              type="text"
+              placeholder="ex: Mon Super Projet"
+              className="input-dark"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.5rem" }}>
+              Email de contact
+            </label>
+            <input
+              type="email"
+              placeholder="ex: contact@monsite.fr"
+              className="input-dark"
+              value={contactEmail}
+              onChange={(e) => setContactEmail(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label style={{ display: "block", fontSize: "0.875rem", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.5rem" }}>
+              Données collectées
+            </label>
+            <input
+              type="text"
+              placeholder="ex: email, nom, adresse IP"
+              className="input-dark"
+              value={dataCollected}
+              onChange={(e) => setDataCollected(e.target.value)}
+            />
+          </div>
+
+          <label style={{ display: "flex", alignItems: "center", gap: "0.625rem", cursor: "pointer", fontSize: "0.875rem", color: "var(--text-secondary)", width: "fit-content" }}>
+            <input
+              type="checkbox"
+              checked={collectsCookies}
+              onChange={(e) => setCollectsCookies(e.target.checked)}
+              style={{
+                accentColor: "var(--cyan)",
+                width: "16px",
+                height: "16px",
+              }}
+            />
+            <span>Le site utilise des cookies de mesure d&apos;audience ou session</span>
+          </label>
+
+          <div style={{ marginTop: "0.5rem" }}>
+            <Button onClick={generate}>Générer le document →</Button>
+          </div>
+        </div>
+      </Card>
+
       {generated && (
-        <div className="mt-8">
-          <pre className="whitespace-pre-wrap rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+        <Card style={{ background: "rgba(8, 12, 20, 0.4)", border: "1px dashed var(--border-strong)", padding: "1.5rem" }}>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "1.125rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "1rem" }}>
+            Document généré
+          </h2>
+          <pre
+            style={{
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "0.875rem",
+              lineHeight: 1.6,
+              color: "var(--text-secondary)",
+              background: "rgba(0,0,0,0.2)",
+              padding: "1rem",
+              borderRadius: "8px",
+              border: "1px solid var(--border)",
+              maxHeight: "360px",
+              overflowY: "auto",
+            }}
+          >
             {generated}
           </pre>
-          <Button onClick={download} variant="secondary" className="mt-4">
-            Télécharger en .txt
-          </Button>
-        </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem", marginTop: "1.25rem" }}>
+            <Button onClick={download} variant="primary">Télécharger (.txt)</Button>
+            <Button onClick={() => {
+              navigator.clipboard.writeText(generated);
+              alert("Copié dans le presse-papiers !");
+            }} variant="secondary">Copier le texte</Button>
+          </div>
+        </Card>
       )}
     </Container>
   );

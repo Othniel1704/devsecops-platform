@@ -1,18 +1,16 @@
+"use client";
+
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "outline";
 
-const variants: Record<Variant, string> = {
-  primary:
-    "bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:outline-emerald-600",
-  secondary:
-    "bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 focus-visible:outline-slate-400",
-  ghost: "text-emerald-700 hover:text-emerald-800",
+const variantStyles: Record<Variant, string> = {
+  primary:   "btn btn-primary",
+  secondary: "btn btn-secondary",
+  outline:   "btn btn-outline",
+  ghost:     "btn btn-ghost",
 };
-
-const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2";
 
 export function Button({
   href,
@@ -22,6 +20,7 @@ export function Button({
   disabled,
   onClick,
   className = "",
+  style,
 }: {
   href?: string;
   variant?: Variant;
@@ -30,21 +29,20 @@ export function Button({
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
+  style?: CSSProperties;
 }) {
-  const classes = `${base} ${variants[variant]} ${
-    disabled ? "cursor-not-allowed opacity-60" : ""
-  } ${className}`;
+  const cls = `${variantStyles[variant]} ${disabled ? "btn-disabled" : ""} ${className}`;
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={cls} style={style}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button type={type} disabled={disabled} onClick={onClick} className={classes}>
+    <button type={type} disabled={disabled} onClick={onClick} className={cls} style={style}>
       {children}
     </button>
   );

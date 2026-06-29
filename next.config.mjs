@@ -1,19 +1,34 @@
 /** @type {import('next').NextConfig} */
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // CSP volontairement documentée plutôt que copiée sans réflexion :
 // - 'unsafe-inline' sur script-src est nécessaire pour le script d'hydratation
 //   inline de Next.js (App Router). Pour une CSP stricte avec nonce, voir le
 //   middleware Next.js officiel ("Content Security Policy" dans la doc Next.js)
 //   — volontairement non ajouté ici pour garder ce starter simple à lire.
+// - 'unsafe-eval' est ajouté uniquement en développement : Next.js l'utilise
+//   pour le hot-module replacement et les source maps. En production, il est
+//   retiré pour respecter la CSP stricte.
 // - connect-src autorise Supabase et l'API Anthropic, seules destinations
-//   réseau utilisées par ce projet.
+//   réseau utilisées par ce projet. En dev, on autorise aussi localhost:*
+//   pour le webpack HMR websocket.
+const isDev = process.env.NODE_ENV === "development";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline'",
+  isDev
+    ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    : "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data:",
-  "font-src 'self'",
-  "connect-src 'self' https://*.supabase.co https://api.anthropic.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  isDev
+    ? "connect-src 'self' https://*.supabase.co https://api.anthropic.com ws://localhost:* http://localhost:*"
+    : "connect-src 'self' https://*.supabase.co https://api.anthropic.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -30,6 +45,7 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  outputFileTracingRoot: path.join(__dirname, "./"),
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
